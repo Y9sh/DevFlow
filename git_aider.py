@@ -55,6 +55,52 @@ def run_aider() -> None:
                 valid = False
                 print(f"Running Aider with model: {model_name}")
                 cmd(["aider", "--model", f"openai/{model_name}"])
+                try:
+                    result = subprocess.run(["git","status","--porcelain"], capture_output=True, text=True)
+                    if result.returncode == 0:
+                        list_output = result.stdout.strip().split("\n")
+                        new_list = ['']
+                        while True:
+                            try:
+                                choices = int(input("Commit all? (1-y/2-n)"))
+                                if choices > 2:
+                                    raise ValueError("Invalid input")
+                                if choices == 2:
+                                    print("Choose files to commit:")
+                                    num = 1
+                                    for i in range(len(list_output)):
+                                        print([num],list_output[i].strip())
+                                        new_list.append(list_output[i])
+                                        num +=1
+                                    u_i = int(input("Enter:"))
+                                    try:
+                                        if u_i:
+                                            choose = new_list[u_i].strip()
+                                            if choose.startswith("M"):
+                                                try:
+                                                    subprocess.run(["git", "add", choose[1:].strip()])
+                                                    commit_name =input("Enter commit name:")
+                                                    subprocess.run(["git", "commit", "-m",commit_name])
+                                                except subprocess.CalledProcessError as e:
+                                                    print(f"Git command failed - {e}")
+                                            elif choose.startswith("?"):
+                                                try:
+                                                    subprocess.run(["git", "add", choose[2:].strip()])
+                                                    commit_name =input("Enter commit name:")
+                                                    subprocess.run(["git", "commit", "-m",commit_name])
+                                                except subprocess.CalledProcessError as e:
+                                                    print(f"Git command failed - {e}")
+                                    except Exception as e:
+                                        print(e)
+                                else: 
+                                    subprocess.run(["git", "add", "."])
+                                    subprocess.run(["git", "commit", "-m", "Auto-commited all files"])
+                            except Exception as e:
+                                print(e)
+                    else: 
+                        print("No files changes.")
+                except Exception as e:
+                    print(e)
         except Exception as e:
             print(e)
     
@@ -102,7 +148,7 @@ def main() -> None:
                             print("Updated .gitignore.")
                             git_check_stats()  # Refresh Git status
                             run_aider()
-                        raise FileNotFoundError("File or directory not exists")
+                        raise FileNotFoundError("File or directory not exist")
                     else:
                         valid = False
                         git_check_stats()
