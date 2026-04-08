@@ -79,45 +79,50 @@ def auto_commit()-> None:
     result = subprocess.run(["git","status","--porcelain"], capture_output=True, text=True)
     if result.returncode == 0:
         list_output = result.stdout.strip().split("\n")
-        if list_output:
-            while True:
-                choices = int(input("Commit all files? (1-yes/2-no):"))
-                if choices == 2:
-                    print("Choose files to commit:")
-                    for i,list_outputs in enumerate(list_output,1):
-                        print(f"{i} {list_outputs.strip()}")
-                    u_i = int(input("Enter:"))
-                    if u_i < len(list_output):
-                        choose = list_outputs.strip()
-                        print("CHECK:",choose)
-                        if choose.startswith("M"):
-                            try:
-                                cmd(["git", "add", choose[1:].strip()])
-                                commit_name =input("Enter commit name:")
-                                cmd(["git", "commit", "-m",commit_name])
-                                break
-                            except subprocess.CalledProcessError as e:
-                                print(f"Git command failed - {e}")
-                        elif choose.startswith("?"):
-                            try:
-                                cmd(["git", "add", choose[2:].strip()])
-                                commit_name =input("Enter commit name:")
-                                cmd(["git", "commit", "-m",commit_name])
-                                break
-                            except subprocess.CalledProcessError as e:
-                                print(f"Git command failed - {e}")
-                    else:
-                        print("Invalid input")
-                        continue
-                elif choices == 1: 
-                    cmd(["git", "add", "."])
-                    cmd(["git", "commit", "-m", "Auto-commited all files"])
-                    break
+        new_list = ['']
+        while True:
+            choices = int(input("Commit all files? (1-yes/2-no):"))
+            if choices == 2:
+                print("Choose files to commit:")
+                num = 1
+                for i in range(len(list_output)):
+                    print([num],list_output[i].strip())
+                    new_list.append(list_output[i])
+                    num +=1
+                print("Length list:",len(list_output))
+                u_i = int(input("Enter:"))
+                if not u_i:
+                    print("Input can't empty")
+                    continue
+                if u_i <= len(list_output):
+                    choose = new_list[u_i].strip()
+                    if choose.startswith("M"):
+                        try:
+                            cmd(["git", "add", choose[1:].strip()])
+                            commit_name =input("Enter commit name:")
+                            cmd(["git", "commit", "-m",commit_name])
+                            break
+                        except subprocess.CalledProcessError as e:
+                            print(f"Git command failed - {e}")
+                    elif choose.startswith("?"):
+                        try:
+                            cmd(["git", "add", choose[2:].strip()])
+                            commit_name =input("Enter commit name:")
+                            cmd(["git", "commit", "-m",commit_name])
+                            break
+                        except subprocess.CalledProcessError as e:
+                            print(f"Git command failed - {e}")
                 else:
                     print("Invalid input")
                     continue
-        else:
-            print("No files changes.")
+            elif choices == 1: 
+                # correct again to make this only for files that related not all.
+                cmd(["git", "add", "."])
+                cmd(["git", "commit", "-m", "Auto-commited all files related"])
+                break
+            else:
+                print("Invalid input")
+                continue
     else: 
         print("No files changes.")
         
