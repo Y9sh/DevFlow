@@ -43,68 +43,84 @@ def git_check_stats() -> None:
         cmd(["git", "status"])
     except Exception as e:
         print(f"Git check failed: {type(e).__name__}: {e}")
-
-def run_aider() -> None:
-    valid= True
-    while valid:
+        
+def git_details_stats() -> None:
+    while True:
         try:
-            model_name = input("Enter model name (e.g., 'liquid/lfm2-1.2b'): ").strip()
-            if not model_name:
-                raise ValueError("Model name cannot be empty.")
+            user = int(input("Do you want to see the details stats files changes? (1-yes,2-no):"))
+            if not user:
+                print("Input can't left empty")
+                continue
+            if user == 1:   
+                print("\nChecking for changes...")
+                cmd(["git", "status"])
+                print("Press q to quit")
+                cmd(["git", "diff"])
+                break
             else:
-                valid = False
-                print(f"Running Aider with model: {model_name}")
-                cmd(["aider", "--model", f"openai/{model_name}"])
-                try:
-                    result = subprocess.run(["git","status","--porcelain"], capture_output=True, text=True)
-                    if result.returncode == 0:
-                        list_output = result.stdout.strip().split("\n")
-                        new_list = ['']
-                        while True:
-                            try:
-                                choices = int(input("Commit all? (1-y/2-n)"))
-                                if choices > 2:
-                                    raise ValueError("Invalid input")
-                                if choices == 2:
-                                    print("Choose files to commit:")
-                                    num = 1
-                                    for i in range(len(list_output)):
-                                        print([num],list_output[i].strip())
-                                        new_list.append(list_output[i])
-                                        num +=1
-                                    u_i = int(input("Enter:"))
-                                    try:
-                                        if u_i:
-                                            choose = new_list[u_i].strip()
-                                            if choose.startswith("M"):
-                                                try:
-                                                    cmd(["git", "add", choose[1:].strip()])
-                                                    commit_name =input("Enter commit name:")
-                                                    cmd(["git", "commit", "-m",commit_name])
-                                                except subprocess.CalledProcessError as e:
-                                                    print(f"Git command failed - {e}")
-                                            elif choose.startswith("?"):
-                                                try:
-                                                    cmd(["git", "add", choose[2:].strip()])
-                                                    commit_name =input("Enter commit name:")
-                                                    cmd(["git", "commit", "-m",commit_name])
-                                                except subprocess.CalledProcessError as e:
-                                                    print(f"Git command failed - {e}")
-                                    except Exception as e:
-                                        print(e)
-                                else: 
-                                    cmd(["git", "add", "."])
-                                    cmd(["git", "commit", "-m", "Auto-commited all files"])
-                            except Exception as e:
-                                print(e)
-                    else: 
-                        print("No files changes.")
-                except Exception as e:
-                    print(e)
+                print("Skip to auto-commit")
+                break
         except Exception as e:
-            print(e)
-    
-
+            print(f"Git check failed: {type(e).__name__}: {e}")
+        
+def run_aider() -> None:
+    while True:
+        model_name = input("Enter model name (e.g., 'liquid/lfm2-1.2b'): ").strip()
+        if not model_name:
+            print("Model name cannot be empty.")
+            continue
+        else:
+            print(f"Running Aider with model: {model_name}")
+            cmd(["aider", "--model", f"openai/{model_name}"])
+            break
+            
+def auto_commit()-> None:
+    print("-Welcome to Auto-Commit-")
+    result = subprocess.run(["git","status","--porcelain"], capture_output=True, text=True)
+    if result.returncode == 0:
+        list_output = result.stdout.strip().split("\n")
+        if list_output:
+            while True:
+                choices = int(input("Commit all files? (1-yes/2-no):"))
+                if choices == 2:
+                    print("Choose files to commit:")
+                    for i,list_outputs in enumerate(list_output,1):
+                        print(f"{i} {list_outputs.strip()}")
+                    u_i = int(input("Enter:"))
+                    if u_i < len(list_output):
+                        choose = list_outputs.strip()
+                        print("CHECK:",choose)
+                        if choose.startswith("M"):
+                            try:
+                                cmd(["git", "add", choose[1:].strip()])
+                                commit_name =input("Enter commit name:")
+                                cmd(["git", "commit", "-m",commit_name])
+                                break
+                            except subprocess.CalledProcessError as e:
+                                print(f"Git command failed - {e}")
+                        elif choose.startswith("?"):
+                            try:
+                                cmd(["git", "add", choose[2:].strip()])
+                                commit_name =input("Enter commit name:")
+                                cmd(["git", "commit", "-m",commit_name])
+                                break
+                            except subprocess.CalledProcessError as e:
+                                print(f"Git command failed - {e}")
+                    else:
+                        print("Invalid input")
+                        continue
+                elif choices == 1: 
+                    cmd(["git", "add", "."])
+                    cmd(["git", "commit", "-m", "Auto-commited all files"])
+                    break
+                else:
+                    print("Invalid input")
+                    continue
+        else:
+            print("No files changes.")
+    else: 
+        print("No files changes.")
+        
 def create_gitignore() -> None:
     try:
         with open(".gitignore", "w") as w:
@@ -121,6 +137,9 @@ def main() -> None:
             create_gitignore()
             git_init()
             run_aider()
+            git_details_stats()
+            auto_commit()
+            
         else:
             # path project already have git 
             with open(".gitignore", "r") as r:
@@ -130,32 +149,33 @@ def main() -> None:
                 
             valid = True
             while valid:
-                try:
-                    choice = input("Update .gitignore? (y/n): ").strip().lower()
-                    if not choice:
-                        raise ValueError("No entries provided.Input can't be empty")
-                    if choice == "y":
-                        new_entries = input("Enter files to ignore (comma-separated): ").strip()
-                        if os.path.exists(new_entries):
-                            if not new_entries:
-                                raise ValueError("No entries provided.Input can't be empty")
+                choice = input("Update .gitignore? (y/n): ").strip().lower()
+                if not choice:
+                    raise ValueError("No entries provided.Input can't be empty")
+                if choice == "y":
+                    new_entries = input("Enter files to ignore (comma-separated): ").strip()
+                    if os.path.exists(new_entries):
+                        if not new_entries:
+                            raise ValueError("No entries provided.Input can't be empty")
 
-                            for entry in new_entries.split(","):
-                                entry = entry.strip()
-                                with open(".gitignore", "a") as a:
-                                    a.write(f"\n{entry}")
-                            valid = False
-                            print("Updated .gitignore.")
-                            git_check_stats()  # Refresh Git status
-                            run_aider()
-                        raise FileNotFoundError("File or directory not exist")
-                    else:
+                        for entry in new_entries.split(","):
+                            entry = entry.strip()
+                            with open(".gitignore", "a") as a:
+                                a.write(f"\n{entry}")
                         valid = False
-                        git_check_stats()
+                        print("Updated .gitignore.")
+                        git_check_stats()  # Refresh Git status
                         run_aider()
-                except Exception as err:
-                    print(err)
-
+                        git_details_stats()
+                        auto_commit()
+                    raise FileNotFoundError("File or directory not exist")
+                else:
+                    print("Skip update .gitignore...")
+                    valid = False
+                    git_check_stats()
+                    run_aider()
+                    git_details_stats()
+                    auto_commit()
     except Exception as e:
         print(f"Script error: {type(e).__name__}: {e}")
 
