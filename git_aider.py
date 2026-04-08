@@ -78,23 +78,23 @@ def run_aider() -> None:
                                             choose = new_list[u_i].strip()
                                             if choose.startswith("M"):
                                                 try:
-                                                    subprocess.run(["git", "add", choose[1:].strip()])
+                                                    cmd(["git", "add", choose[1:].strip()])
                                                     commit_name =input("Enter commit name:")
-                                                    subprocess.run(["git", "commit", "-m",commit_name])
+                                                    cmd(["git", "commit", "-m",commit_name])
                                                 except subprocess.CalledProcessError as e:
                                                     print(f"Git command failed - {e}")
                                             elif choose.startswith("?"):
                                                 try:
-                                                    subprocess.run(["git", "add", choose[2:].strip()])
+                                                    cmd(["git", "add", choose[2:].strip()])
                                                     commit_name =input("Enter commit name:")
-                                                    subprocess.run(["git", "commit", "-m",commit_name])
+                                                    cmd(["git", "commit", "-m",commit_name])
                                                 except subprocess.CalledProcessError as e:
                                                     print(f"Git command failed - {e}")
                                     except Exception as e:
                                         print(e)
                                 else: 
-                                    subprocess.run(["git", "add", "."])
-                                    subprocess.run(["git", "commit", "-m", "Auto-commited all files"])
+                                    cmd(["git", "add", "."])
+                                    cmd(["git", "commit", "-m", "Auto-commited all files"])
                             except Exception as e:
                                 print(e)
                     else: 
