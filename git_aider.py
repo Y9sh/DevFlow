@@ -81,7 +81,7 @@ def auto_commit()-> None:
         list_output = result.stdout.strip().split("\n")
         new_list = ['']
         while True:
-            choices = int(input("Commit all files? (1-yes/2-no):"))
+            choices = int(input("Commit all files? (0-skip/1-yes/2-no):"))
             if choices == 2:
                 print("Choose files to commit:")
                 num = 1
@@ -119,6 +119,9 @@ def auto_commit()-> None:
                 # correct again to make this only for files that related not all.
                 cmd(["git", "add", "."])
                 cmd(["git", "commit", "-m", "Auto-commited all files related"])
+                break
+            elif choices == 0:
+                print("GoodBye~~")
                 break
             else:
                 print("Invalid input")
