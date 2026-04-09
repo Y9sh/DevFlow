@@ -145,6 +145,11 @@ def create_gitignore() -> None:
         print(f"Failed to create .gitignore: {type(e).__name__}: {e}")
 
 def updated_gitignore() -> None:
+    
+    with open(".gitignore", "r") as r:
+        content = r.read()
+        print("\nCurrent .gitignore contents:")
+        print(content)
     valid = True
     while valid:
         choice = input("Update .gitignore? (y/n): ").strip().lower()
@@ -176,24 +181,32 @@ def updated_gitignore() -> None:
             auto_commit()
 
 def add_more_git_ignore() -> None:
-    valid = True
-    while valid:
-        choice = input("Add more .gitignore? (y/n): ").strip().lower()
-        if not choice:
-            raise ValueError("No entries provided.Input can't be empty")
-        if choice == "y":
-            new_entries = input("Enter files to ignore (comma-separated): ").strip()
-            if os.path.exists(new_entries):
-                if not new_entries:
-                    raise ValueError("No entries provided.Input can't be empty")
+    try:
+        with open(".gitignore", "r") as r:
+            content = r.read()
+            print("\nCurrent .gitignore contents:")
+            print(content)
+        valid = True
+        while valid:
+            choice = input("Add more .gitignore? (y/n): ").strip().lower()
+            if not choice:
+                raise ValueError("No entries provided.Input can't be empty")
+            if choice == "y":
+                new_entries = input("Enter files to ignore (comma-separated): ").strip()
+                if os.path.exists(new_entries):
+                    if not new_entries:
+                        raise ValueError("No entries provided.Input can't be empty")
 
-                for entry in new_entries.split(","):
-                    entry = entry.strip()
-                    with open(".gitignore", "a") as a:
-                        a.write(f"\n{entry}")
-                valid = False
-                print("Updated .gitignore.")
-                
+                    for entry in new_entries.split(","):
+                        entry = entry.strip()
+                        with open(".gitignore", "a") as a:
+                            a.write(f"\n{entry}")
+                    valid = False
+                    print("Updated .gitignore.")
+                raise FileNotFoundError("File or directory not exist")
+    except Exception as e:
+        print(e)
+        
 def main() -> None:
     
     try:
@@ -208,10 +221,6 @@ def main() -> None:
             
         else:
             # path project already have git 
-            with open(".gitignore", "r") as r:
-                content = r.read()
-                print("\nCurrent .gitignore contents:")
-                print(content)
             updated_gitignore()
             
     except Exception as e:
