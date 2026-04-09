@@ -90,7 +90,7 @@ def auto_commit()-> None:
         while True:
             choices = int(input("Commit all files? (0-skip/1-yes/2-no):"))
             if choices == 2:
-                print("Choose files to commit:")
+                print("Choose files to commit (0-cancel):")
                 num = 1
                 for i in range(len(list_output)):
                     print([num],list_output[i].strip())
@@ -98,9 +98,9 @@ def auto_commit()-> None:
                     num +=1
                 print("Length list:",len(list_output))
                 u_i = int(input("Enter:"))
-                if not u_i:
-                    print("Input can't empty")
-                    continue
+                if u_i == 0:
+                    print("Cancel and quit")
+                    break
                 if u_i <= len(list_output):
                     choose = new_list[u_i].strip()
                     if choose.startswith("M"):
@@ -216,7 +216,8 @@ def add_more_git_ignore() -> None:
 
         
 def main() -> None:
-    
+    # maybe i can make 2 modes, 1st one to use basic git and 2nd is automate fully git and run aider
+    # for now only 2nd mode 
     # path for new project wihout any git
     if not os.path.exists(".gitignore"):
         create_gitignore()
