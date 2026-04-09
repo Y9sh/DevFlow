@@ -186,24 +186,26 @@ def add_more_git_ignore() -> None:
             content = r.read()
             print("\nCurrent .gitignore contents:")
             print(content)
-        valid = True
-        while valid:
+        while True:
             choice = input("Add more .gitignore? (y/n): ").strip().lower()
             if not choice:
-                raise ValueError("No entries provided.Input can't be empty")
+                print("No entries provided.Input can't be empty")
+                continue
             if choice == "y":
                 new_entries = input("Enter files to ignore (comma-separated): ").strip()
                 if os.path.exists(new_entries):
                     if not new_entries:
-                        raise ValueError("No entries provided.Input can't be empty")
-
+                        print("No entries provided.Input can't be empty")
+                        continue
                     for entry in new_entries.split(","):
                         entry = entry.strip()
                         with open(".gitignore", "a") as a:
                             a.write(f"\n{entry}")
-                    valid = False
                     print("Updated .gitignore.")
-                raise FileNotFoundError("File or directory not exist")
+                    break
+                else:
+                    print("File or directory not exist")
+                    continue
     except Exception as e:
         print(e)
         
