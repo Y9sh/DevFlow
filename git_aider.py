@@ -214,6 +214,10 @@ def add_more_git_ignore() -> None:
                 print("Updated .gitignore.")
             break
 
+def loop_step() -> None:
+    run_aider()
+    git_details_stats()
+    auto_commit()
         
 def main() -> None:
     # maybe i can make 2 modes, 1st one to use basic git and 2nd is automate fully git and run aider
@@ -223,14 +227,36 @@ def main() -> None:
         create_gitignore()
         add_more_git_ignore()
         git_init()
-        run_aider()
-        git_details_stats()
-        auto_commit()
+        while True:
+            # ask for rerun aider
+            rerun = input("Run aider (y/n)?")
+            if not rerun:
+                print("Invalid")
+                continue
+            if rerun == "y":
+                loop_step()
+                break
+            else:
+                print("See yaa~~~")
+                break
+        
+        
         
     else:
         # path project already have git 
         updated_gitignore()
-            
+        while True:
+            # ask for rerun aider
+            rerun = input("Run aider (y/n)?")
+            if not rerun:
+                print("Invalid")
+                continue
+            if rerun == "y":
+                loop_step()
+                break
+            else:
+                print("See yaa~~~")
+                break
 
 
 if __name__ == "__main__":
