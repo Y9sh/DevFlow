@@ -88,7 +88,7 @@ def auto_commit()-> None:
         list_output = result.stdout.strip().split("\n")
         new_list = ['']
         while True:
-            choices = int(input("Commit all files? (0-skip/1-yes/2-no):"))
+            choices = int(input("Commit all files? (0-cancel/1-yes/2-no):"))
             if choices == 2:
                 print("Choose files to commit (0-cancel):")
                 num = 1
@@ -99,7 +99,7 @@ def auto_commit()-> None:
                 print("Length list:",len(list_output))
                 u_i = int(input("Enter:"))
                 if u_i == 0:
-                    print("Cancel and quit")
+                    print("Cancel")
                     break
                 if u_i <= len(list_output):
                     choose = new_list[u_i].strip()
@@ -172,19 +172,33 @@ def updated_gitignore() -> None:
                 with open(".gitignore", "a") as a:
                     a.write(f"\n{entry}")
                 print("Updated .gitignore.")
-            
-            git_check_stats()  # Refresh Git status
-            run_aider()
-            git_details_stats()
-            auto_commit()
-            break
+                break
+            while True:
+                # ask for rerun aider
+                rerun = input("Run aider (y/n)?")
+                if not rerun:
+                    print("Invalid")
+                    continue
+                if rerun == "y":
+                    loop_step()
+                else:
+                    print("See yaa~~~")
+                    break
         else:
             print("Skip update .gitignore...")
             git_check_stats()
-            run_aider()
-            git_details_stats()
-            auto_commit()
-            break
+            while True:
+                # ask for rerun aider
+                rerun = input("Run aider (y/n)?")
+                if not rerun:
+                    print("Invalid")
+                    continue
+                if rerun == "y":
+                    loop_step()
+                else:
+                    print("See yaa~~~")
+                    break
+        break
 
 def add_more_git_ignore() -> None:
 
@@ -193,7 +207,7 @@ def add_more_git_ignore() -> None:
         print("\nCurrent .gitignore contents:")
         print(content)
     while True:
-        choice = input("Update .gitignore? (y/n): ").strip().lower()
+        choice = input("Add more files to .gitignore? (y/n): ").strip().lower()
         if not choice:
             print("No entries provided.Input can't be empty")
             continue
@@ -235,7 +249,6 @@ def main() -> None:
                 continue
             if rerun == "y":
                 loop_step()
-                break
             else:
                 print("See yaa~~~")
                 break
@@ -245,18 +258,6 @@ def main() -> None:
     else:
         # path project already have git 
         updated_gitignore()
-        while True:
-            # ask for rerun aider
-            rerun = input("Run aider (y/n)?")
-            if not rerun:
-                print("Invalid")
-                continue
-            if rerun == "y":
-                loop_step()
-                break
-            else:
-                print("See yaa~~~")
-                break
 
 
 if __name__ == "__main__":
