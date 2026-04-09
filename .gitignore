@@ -4,3 +4,5 @@ venv/
 .venv/
 __pycache__/
 .aider*
+pyproject.toml
+git_aider.egg-info/
