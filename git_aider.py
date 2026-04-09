@@ -76,7 +76,10 @@ def run_aider() -> None:
             
 def auto_commit()-> None:
     print("-Welcome to Auto-Commit-")
-    result = subprocess.run(["git","status","--porcelain"], capture_output=True, text=True)
+    try:
+        result = subprocess.run(["git","status","--porcelain"], capture_output=True, text=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Git command failed - {e}")
     if result.returncode == 0:
         list_output = result.stdout.strip().split("\n")
         new_list = ['']
