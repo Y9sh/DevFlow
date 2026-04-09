@@ -18,12 +18,16 @@ def cmd(value: List[str]) -> None:
         print(f"Unexpected error executing command: {type(e).__name__}: {e}")
 
 def git_init() -> None:
-    if not os.path.exists(".git"):
-        cmd(["git", "init"])
-        print("Git repository initialized.")
-        git_add_commit()
-    else:
-        print("Repository already exists.")
+    try:
+        if not os.path.exists(".git"):
+            cmd(["git", "init"])
+            print("Git repository initialized.")
+            git_add_commit()
+        else:
+            print("Repository already exists.")
+    except Exception as e:
+        print("Caught in error")
+        print(type(e).__name__,e)
 
 def git_add_commit() -> None:
     try:
