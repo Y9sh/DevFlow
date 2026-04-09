@@ -108,6 +108,7 @@ def auto_commit()-> None:
                             cmd(["git", "add", choose[1:].strip()])
                             commit_name =input("Enter commit name:")
                             cmd(["git", "commit", "-m",commit_name])
+                            print("Thank You~~~Byee")
                             break
                         except subprocess.CalledProcessError as e:
                             print(f"Git command failed - {e}")
@@ -116,6 +117,7 @@ def auto_commit()-> None:
                             cmd(["git", "add", choose[2:].strip()])
                             commit_name =input("Enter commit name:")
                             cmd(["git", "commit", "-m",commit_name])
+                            print("Thank You~~~Byee,SYS")
                             break
                         except subprocess.CalledProcessError as e:
                             print(f"Git command failed - {e}")
