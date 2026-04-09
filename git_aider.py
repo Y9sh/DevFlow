@@ -43,7 +43,8 @@ def git_add_commit() -> None:
 def git_check_stats() -> None:
     try:
         print("\nChecking for uncommitted changes...")
-        cmd(["git", "fetch"])
+        print("Latest Modified Files:")
+        cmd(["git", "diff", "--name-only"])
         cmd(["git", "status"])
     except Exception as e:
         print(f"Git check failed: {type(e).__name__}: {e}")
@@ -126,8 +127,10 @@ def auto_commit()-> None:
                     continue
             elif choices == 1: 
                 # correct again to make this only for files that related not all.
+                git_check_stats()
                 cmd(["git", "add", "-A"])
                 cmd(["git", "commit", "-m", "Auto-commited all files related"])
+                git_check_stats()
                 break
             elif choices == 0:
                 print("GoodBye~~")
