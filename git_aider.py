@@ -4,7 +4,7 @@ from typing import List
 
 base_git_ignore = """env/
 venv/
-.env/
+.env
 .venv/
 __pycache__/
 """
