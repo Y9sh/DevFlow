@@ -172,16 +172,19 @@ def updated_gitignore() -> None:
                 with open(".gitignore", "a") as a:
                     a.write(f"\n{entry}")
                 print("Updated .gitignore.")
+            
             git_check_stats()  # Refresh Git status
             run_aider()
             git_details_stats()
             auto_commit()
+            break
         else:
             print("Skip update .gitignore...")
             git_check_stats()
             run_aider()
             git_details_stats()
             auto_commit()
+            break
 
 def add_more_git_ignore() -> None:
 
