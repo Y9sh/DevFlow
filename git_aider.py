@@ -143,13 +143,64 @@ def create_gitignore() -> None:
         print("Created .gitignore file.")
     except Exception as e:
         print(f"Failed to create .gitignore: {type(e).__name__}: {e}")
-        
 
+def updated_gitignore() -> None:
+    valid = True
+    while valid:
+        choice = input("Update .gitignore? (y/n): ").strip().lower()
+        if not choice:
+            raise ValueError("No entries provided.Input can't be empty")
+        if choice == "y":
+            new_entries = input("Enter files to ignore (comma-separated): ").strip()
+            if os.path.exists(new_entries):
+                if not new_entries:
+                    raise ValueError("No entries provided.Input can't be empty")
+
+                for entry in new_entries.split(","):
+                    entry = entry.strip()
+                    with open(".gitignore", "a") as a:
+                        a.write(f"\n{entry}")
+                valid = False
+                print("Updated .gitignore.")
+                git_check_stats()  # Refresh Git status
+                run_aider()
+                git_details_stats()
+                auto_commit()
+            raise FileNotFoundError("File or directory not exist")
+        else:
+            print("Skip update .gitignore...")
+            valid = False
+            git_check_stats()
+            run_aider()
+            git_details_stats()
+            auto_commit()
+
+def add_more_git_ignore() -> None:
+    valid = True
+    while valid:
+        choice = input("Add more .gitignore? (y/n): ").strip().lower()
+        if not choice:
+            raise ValueError("No entries provided.Input can't be empty")
+        if choice == "y":
+            new_entries = input("Enter files to ignore (comma-separated): ").strip()
+            if os.path.exists(new_entries):
+                if not new_entries:
+                    raise ValueError("No entries provided.Input can't be empty")
+
+                for entry in new_entries.split(","):
+                    entry = entry.strip()
+                    with open(".gitignore", "a") as a:
+                        a.write(f"\n{entry}")
+                valid = False
+                print("Updated .gitignore.")
+                
 def main() -> None:
+    
     try:
         # path for new project wihout any git
         if not os.path.exists(".gitignore"):
             create_gitignore()
+            add_more_git_ignore()
             git_init()
             run_aider()
             git_details_stats()
@@ -161,36 +212,8 @@ def main() -> None:
                 content = r.read()
                 print("\nCurrent .gitignore contents:")
                 print(content)
-                
-            valid = True
-            while valid:
-                choice = input("Update .gitignore? (y/n): ").strip().lower()
-                if not choice:
-                    raise ValueError("No entries provided.Input can't be empty")
-                if choice == "y":
-                    new_entries = input("Enter files to ignore (comma-separated): ").strip()
-                    if os.path.exists(new_entries):
-                        if not new_entries:
-                            raise ValueError("No entries provided.Input can't be empty")
-
-                        for entry in new_entries.split(","):
-                            entry = entry.strip()
-                            with open(".gitignore", "a") as a:
-                                a.write(f"\n{entry}")
-                        valid = False
-                        print("Updated .gitignore.")
-                        git_check_stats()  # Refresh Git status
-                        run_aider()
-                        git_details_stats()
-                        auto_commit()
-                    raise FileNotFoundError("File or directory not exist")
-                else:
-                    print("Skip update .gitignore...")
-                    valid = False
-                    git_check_stats()
-                    run_aider()
-                    git_details_stats()
-                    auto_commit()
+            updated_gitignore()
+            
     except Exception as e:
         print(f"Script error: {type(e).__name__}: {e}")
 
