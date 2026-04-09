@@ -126,7 +126,7 @@ def auto_commit()-> None:
                     continue
             elif choices == 1: 
                 # correct again to make this only for files that related not all.
-                cmd(["git", "add", "."])
+                cmd(["git", "add", "-A"])
                 cmd(["git", "commit", "-m", "Auto-commited all files related"])
                 break
             elif choices == 0:
