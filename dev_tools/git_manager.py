@@ -134,7 +134,8 @@ package*
                     # correct again to make this only for files that related not all.
                     self.git_check_stats()
                     self.cmd(["git", "add", "-A"])
-                    self.cmd(["git", "commit", "-m", "Auto-commited all files related"])
+                    commit_name = str(input("Enter commit name:"))
+                    self.cmd(["git", "commit", "-m", commit_name])
                     self.git_check_stats()
                     break
                 elif choices == 0:

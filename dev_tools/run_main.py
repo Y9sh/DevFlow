@@ -1,7 +1,16 @@
 import os
 from .git_manager import GIT
+from .excalocal import ExcalocalServer
+
+excalocal = ExcalocalServer()
 git = GIT()
 def main() -> None:
+    # draft for other tools
+    choose_tools = int(input('List of Tools\n1.Excalocal\n2.Skip\n'))
+    print("Choose",choose_tools)
+    if choose_tools == 1:
+        excalocal.run_excalocal()
+
     # maybe i can make 2 modes, 1st one to use basic git and 2nd is automate fully git and run aider
     # for now only 2nd mode 
     # path for new project wihout any git
@@ -18,11 +27,13 @@ def main() -> None:
             if rerun == "y":
                 git.loop_step()
             else:
+                excalocal.terminate_excalocal()
                 print("See yaa~~~")
                 break    
     else:
         # path project already have git 
         git.updated_gitignore()
+        excalocal.terminate_excalocal()
         
 if __name__ == "__main__":
     main()
