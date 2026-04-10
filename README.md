@@ -17,3 +17,5 @@ A simple CLI tool to help you initialize a Git repository, create a `.gitignore`
 2. Clone or create this project.
 3. Run the script:
 
+npx excalocal -k 3030
+start npx excalocal
