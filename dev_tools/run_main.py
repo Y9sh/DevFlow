@@ -1,6 +1,6 @@
 import os
-from git import Git
-git = Git()
+from .git_manager import GIT
+git = GIT()
 def main() -> None:
     # maybe i can make 2 modes, 1st one to use basic git and 2nd is automate fully git and run aider
     # for now only 2nd mode 
@@ -23,7 +23,6 @@ def main() -> None:
     else:
         # path project already have git 
         git.updated_gitignore()
-
-
+        
 if __name__ == "__main__":
     main()
