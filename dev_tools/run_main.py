@@ -6,10 +6,10 @@ excalocal = ExcalocalServer()
 git = GIT()
 def main() -> None:
     # draft for other tools
-    choose_tools = int(input('List of Tools\n1.Excalocal\n2.Skip\n'))
-    print("Choose",choose_tools)
+    choose_tools = int(input('List of Tools (1.Excalocal 2.Skip):'))
     if choose_tools == 1:
         excalocal.run_excalocal()
+        print("Server Run on http://localhost:3030/")
 
     # maybe i can make 2 modes, 1st one to use basic git and 2nd is automate fully git and run aider
     # for now only 2nd mode 
