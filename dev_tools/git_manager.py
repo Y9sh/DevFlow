@@ -232,7 +232,8 @@ package*
                     with open(".gitignore", "a") as a:
                         a.write(f"\n{entry}")
                     print("Updated .gitignore.")
-                break
+                    break
+            break
 
     def loop_step(self) -> None:
         self.run_aider()
