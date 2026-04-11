@@ -23,16 +23,13 @@ package*
             print(f"Unexpected error executing command: {type(e).__name__}: {e}")
 
     def git_init(self) -> None:
-        try:
-            if not os.path.exists(".git"):
-                self.cmd(["git", "init"])
-                print("Git repository initialized.")
-                self.git_add_commit()
-            else:
-                print("Repository already exists.")
-        except Exception as e:
-            print("Caught in error")
-            print(type(e).__name__,e)
+        
+        if not os.path.exists(".git"):
+            self.cmd(["git", "init"])
+            print("Git repository initialized.")
+            self.git_add_commit()
+        else:
+            print("Repository already exists.")
 
     def git_add_commit(self) -> None:
         try:
@@ -156,18 +153,18 @@ package*
             print(f"Failed to create .gitignore: {type(e).__name__}: {e}")
 
     def updated_gitignore(self) -> None:
-        
+        self.git_init()
         with open(".gitignore", "r") as r:
             content = r.read()
             print("\nCurrent .gitignore contents:")
             print(content)
         while True:
-            choice = input("Update .gitignore? (y/n): ").strip().lower()
+            choice = input("Update .gitignore? (y/n):").strip().lower()
             if not choice:
                 print("No entries provided.Input can't be empty")
                 continue
             if choice == "y":
-                new_entries = input("Enter files to ignore (comma-separated): ").strip()
+                new_entries = input("Enter files to ignore (comma-separated):").strip()
                 if not new_entries:
                     print("No entries provided.Input can't be empty")
                     continue
@@ -216,12 +213,12 @@ package*
             print("\nCurrent .gitignore contents:")
             print(content)
         while True:
-            choice = input("Add more files to .gitignore? (y/n): ").strip().lower()
+            choice = input("Add more files to .gitignore? (y/n):").strip().lower()
             if not choice:
                 print("No entries provided.Input can't be empty")
                 continue
             if choice == "y":
-                new_entries = input("Enter files to ignore (comma-separated): ").strip()
+                new_entries = input("Enter files to ignore (comma-separated):").strip()
                 if not new_entries:
                     print("No entries provided.Input can't be empty")
                     continue
