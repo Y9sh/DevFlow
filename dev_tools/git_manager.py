@@ -1,6 +1,6 @@
 import os
 import subprocess
-from terminal import cmd 
+from .terminal import cmd 
 
 class GIT:
     '''
