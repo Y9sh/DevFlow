@@ -1,9 +1,13 @@
 import os
 import subprocess
-from typing import List
+from terminal import cmd 
 
 class GIT:
+    '''
+    GIT automations wrapper
+    '''
     def __init__(self):
+        self.cmd =cmd
         self.base_git_ignore = """env/
 venv/
 .env
@@ -13,14 +17,6 @@ __pycache__/
 node_modules/
 package*
     """
-
-    def cmd(self,value: List[str]) -> None:
-        try:
-            subprocess.run(value, check=True)
-        except subprocess.CalledProcessError as e:
-            print(f"Command failed with error: {e}")
-        except Exception as e:
-            print(f"Unexpected error executing command: {type(e).__name__}: {e}")
 
     def git_init(self) -> None:
         
