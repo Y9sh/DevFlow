@@ -28,6 +28,9 @@ package*
             print("Repository already exists.")
 
     def git_add_commit(self) -> None:
+        """
+        1st snapshot of commited projects
+        """
         try:
             self.cmd(["git", "add", "."])
             name_commit = input("Enter commit message: ").strip()

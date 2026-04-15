@@ -8,3 +8,4 @@ node_modules/
 package*
 pyproject.toml
 dev_tools.egg-info/
+sources/
