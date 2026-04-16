@@ -19,7 +19,9 @@ package*
     """
 
     def git_init(self) -> None:
-        
+        """
+        Check if .git files is exist
+        """
         if not os.path.exists(".git"):
             self.cmd(["git", "init"])
             print("Git repository initialized.")
@@ -42,6 +44,9 @@ package*
             print(f"Failed to commit: {type(e).__name__}: {e}")
 
     def git_check_stats(self) -> None:
+        """
+        Details git status
+        """
         try:
             print("\nChecking for uncommitted changes...")
             print("Latest Modified Files:")
@@ -51,6 +56,9 @@ package*
             print(f"Git check failed: {type(e).__name__}: {e}")
             
     def git_details_stats(self) -> None:
+        """
+        Details changing each file being modified.
+        """
         while True:
             try:
                 user = int(input("Do you want to see the details stats files changes? (1-yes,2-no):"))
@@ -69,19 +77,9 @@ package*
             except Exception as e:
                 print(f"Git check failed: {type(e).__name__}: {e}")
             
-    def run_aider(self) -> None:
-        while True:
-            model_name = input("Enter model name (e.g., 'liquid/lfm2-1.2b'): ").strip()
-            if not model_name:
-                print("Model name cannot be empty.")
-                continue
-            else:
-                print(f"Running Aider with model: {model_name}")
-                self.cmd(["aider", "--model", f"openai/{model_name}"])
-                break
-                
+
     def auto_commit(self)-> None:
-        print("-Welcome to Auto-Commit-")
+        print("-Welcome to Lazy-Commit-")
         try:
             result = subprocess.run(["git","status","--porcelain"], capture_output=True, text=True)
         except subprocess.CalledProcessError as e:
@@ -110,7 +108,7 @@ package*
                                 self.cmd(["git", "add", choose[1:].strip()])
                                 commit_name =input("Enter commit name:")
                                 self.cmd(["git", "commit", "-m",commit_name])
-                                print("Thank You~~~Byee")
+                                print("Git Commit Done")
                                 break
                             except subprocess.CalledProcessError as e:
                                 print(f"Git command failed - {e}")
@@ -119,7 +117,7 @@ package*
                                 self.cmd(["git", "add", choose[2:].strip()])
                                 commit_name =input("Enter commit name:")
                                 self.cmd(["git", "commit", "-m",commit_name])
-                                print("Thank You~~~Byee,SYS")
+                                print("Git Commit Done")
                                 break
                             except subprocess.CalledProcessError as e:
                                 print(f"Git command failed - {e}")
@@ -135,7 +133,6 @@ package*
                     self.git_check_stats()
                     break
                 elif choices == 0:
-                    print("GoodBye~~")
                     break
                 else:
                     print("Invalid input")
@@ -144,6 +141,9 @@ package*
             print("No files changes.")
             
     def create_gitignore(self) -> None:
+        """
+        Create git .gitignore
+        """
         try:
             with open(".gitignore", "w") as w:
                 w.write(self.base_git_ignore)
@@ -178,31 +178,9 @@ package*
                         a.write(f"\n{entry}")
                     print("Updated .gitignore.")
                     break
-                while True:
-                    # ask for rerun aider
-                    rerun = input("Run aider (y/n)?")
-                    if not rerun:
-                        print("Invalid")
-                        continue
-                    if rerun == "y":
-                        self.loop_step()
-                    else:
-                        print("See yaa~~~")
-                        break
             else:
                 print("Skip update .gitignore...")
                 self.git_check_stats()
-                while True:
-                    # ask for rerun aider
-                    rerun = input("Run aider (y/n)?")
-                    if not rerun:
-                        print("Invalid")
-                        continue
-                    if rerun == "y":
-                        self.loop_step()
-                    else:
-                        print("See yaa~~~")
-                        break
             break
 
     def add_more_git_ignore(self) -> None:
@@ -233,8 +211,4 @@ package*
                     print("Updated .gitignore.")
                     break
             break
-
-    def loop_step(self) -> None:
-        self.run_aider()
-        self.git_details_stats()
-        self.auto_commit()
+        

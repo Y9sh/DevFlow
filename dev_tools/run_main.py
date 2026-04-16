@@ -1,43 +1,37 @@
 import os
 from .git_manager import GIT
-from .excalocal import ExcalocalServer
+from .tools import ExcalocalServer,AgentAssistant
 
-excalocal = ExcalocalServer()
+tool = [ExcalocalServer(),AgentAssistant()]
 git = GIT()
 def main() -> None:
-    try:
-        # draft for other tools
-        choose_tools = int(input('List of Tools (1.Excalocal 2.Skip):'))
-        if choose_tools == 1:
-            excalocal.run_excalocal()
-            print("Server Excalocal Run on http://localhost:3030/")
-
-        # maybe i can make 2 modes, 1st one to use basic git and 2nd is automate fully git and run aider
-        # for now only 2nd mode 
-        # path for new project wihout any git
-        if not os.path.exists(".gitignore"):
-            git.create_gitignore()
-            git.add_more_git_ignore()
-            git.git_init()
-            while True:
-                # ask for rerun aider
-                rerun = input("Run aider (y/n)?")
-                if not rerun:
-                    print("Invalid")
-                    continue
-                if rerun == "y":
-                    git.loop_step()
+    while True:
+        try:
+            # draft for other tools
+            choose_tools = int(input('List of Tools\n' + "1.Excalocal\n" + "2.Aider\n" + "3.Git Setup\n" + "4.Lazy-Git-Commit\n"+ "5.Exit\n" + "Enter:"))
+            if not choose_tools:
+                print("Invalid.Try again")
+                continue
+            if choose_tools == 1:
+                tool[0].run_excalocal()
+                print("Server Excalocal Running on http://localhost:3030/")
+            elif choose_tools == 2:
+                tool[1].run_aider()
+            elif choose_tools == 3:
+                if not os.path.exists(".gitignore"):
+                    git.create_gitignore()
+                    git.add_more_git_ignore()
+                    git.git_init()
                 else:
-                    excalocal.terminate_excalocal()
-                    print("See yaa~~~")
-                    break    
-        else:
-            # path project already have git 
-            git.updated_gitignore()
-            excalocal.terminate_excalocal()
-    except Exception as e:
-        print("Outer error handler",type(e).__name__,e)
-        excalocal.terminate_excalocal()
-        
+                    # path project already have git 
+                    git.updated_gitignore()
+            elif choose_tools == 4:
+                git.auto_commit()
+            else:
+                tool[0].terminate_excalocal()
+                break
+        except Exception as e:
+            print("Outer error handler",type(e).__name__,e)
+            
 if __name__ == "__main__":
     main()
