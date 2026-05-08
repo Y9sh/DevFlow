@@ -1,5 +1,5 @@
 # Git Aider
-
+# Take note that if aider answer weirdly,that means the cache already exceed, for now just delete it..
 A simple CLI tool to help you initialize a Git repository, create a `.gitignore` file, and run Aider with a selected model.
 
 ## Features
@@ -20,3 +20,6 @@ A simple CLI tool to help you initialize a Git repository, create a `.gitignore`
 ## Further improvement
 - Auto create env, auto activate
 - ask user any dependencies to install..(git clone ...etc.)
+
+## Warning 
+- Only run after inside your project file..

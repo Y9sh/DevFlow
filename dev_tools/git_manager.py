@@ -88,6 +88,7 @@ package*
             list_output = result.stdout.strip().split("\n")
             new_list = ['']
             while True:
+                print("Warning: Lazy-commit will skip stage-changes (Modified -> Commit)")
                 choices = int(input("Commit all files? (0-cancel/1-yes/2-no):"))
                 if choices == 2:
                     print("Choose files to commit (0-cancel):")
