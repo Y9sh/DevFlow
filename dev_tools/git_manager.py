@@ -15,7 +15,6 @@ venv/
 __pycache__/
 .aider*
 node_modules/
-package*
     """
 
     def git_init(self) -> None:
