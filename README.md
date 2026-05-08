@@ -12,9 +12,9 @@ A Python-based command-line utility built to simplify parts of my local developm
 ## Notes
 This project was built as part of my learning and experimentation process in Python automation and development tooling.
 
-## External setup 
+## External Requirements
 1. LM Studio.
-2. Aider installed globally
+2. Aider (installed globally)
 3. Excalocal (Node.js dependencies)
 
 ## Installation
