@@ -8,4 +8,3 @@ node_modules/
 pyproject.toml
 dev_tools.egg-info/
 sources/
-dev_tools/web.py

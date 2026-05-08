@@ -1,13 +1,17 @@
 import subprocess
 from .terminal import cmd
+import os
 
 class ExcalocalServer:
     '''
     Tools for sketching diagram
     '''
     def __init__(self):
-        self.local_path = "" # here need to manually add where exact the excalocal dependencies donwloaded
-        self.server = f'{self.local_path}/node_modules/.bin/excalocal.cmd' 
+        #self.based = os.getcwd()
+        #self.server = f'{self.based}/node_modules/.bin/excalocal.cmd' 
+        # find out how to make it run even at other device
+        self.server = 'E:/in_dev/tools/node_modules/.bin/excalocal.cmd' 
+    
     def run_excalocal(self) -> None:
         # Start the server in the background
 
@@ -32,6 +36,7 @@ class AgentAssistant:
         self.cmd = cmd
         
     def run_aider(self) -> None:
+        # need to install aider.exe manually..then setup as global execute..
         """
         Run 3rd party aider partner code agents
         """
