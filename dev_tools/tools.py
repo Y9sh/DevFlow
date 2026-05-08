@@ -1,16 +1,17 @@
 import subprocess
 from .terminal import cmd
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
+path = os.getenv("FILE_PATH") # change the filepath to current clone project directory
 
 class ExcalocalServer:
     '''
     Tools for sketching diagram
     '''
     def __init__(self):
-        #self.based = os.getcwd()
-        #self.server = f'{self.based}/node_modules/.bin/excalocal.cmd' 
-        # find out how to make it run even at other device
-        self.server = 'E:/in_dev/tools/node_modules/.bin/excalocal.cmd' 
+        self.server = f'{path}/node_modules/.bin/excalocal.cmd' 
     
     def run_excalocal(self) -> None:
         # Start the server in the background
