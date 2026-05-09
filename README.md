@@ -39,13 +39,13 @@ Installed through Node.js dependencies using npm install.
 ## Installation using CLI
 
 1. Ensure you have Python 3.9+ installed.
-2. Clone this project on new folder or your current project folder. ```console git clone https://github.com/Y9sh/DevFlow.git```
+2. Clone this project on new folder or your current project folder. ```git clone https://github.com/Y9sh/DevFlow.git```
 3. cd DevFlow
-4. ```console python -m venv env-name ``` (setup the python env)
-5. ```console env-name\Scripts\activate ``` (activate the env)
-6. ```console pip install -r requirements.txt ```(Python dependencies)
-7. ```console npm install ``` (Node.js dependencies)
-8.  Create a `.env` file inside the DevFlow root directory: ```console FILE_PATH=C:/your/project/path```
-9.  Install DevFlow in editable mode: ```console pip install -e . ```
-10. run the tools:```console dev_tools ``` 
+4. ```python -m venv env-name ``` (setup the python env)
+5. ```env-name\Scripts\activate ``` (activate the env)
+6. ```pip install -r requirements.txt ```(Python dependencies)
+7. ```npm install ``` (Node.js dependencies)
+8.  Create a `.env` file inside the DevFlow root directory: ```FILE_PATH=C:/your/project/path```
+9.  Install DevFlow in editable mode: ```pip install -e . ```
+10. run the tools:```dev_tools ``` 
 
