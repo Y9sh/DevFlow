@@ -5,6 +5,5 @@ venv/
 __pycache__/
 .aider*
 node_modules/
-pyproject.toml
 dev_tools.egg-info/
 sources/

@@ -1,0 +1,10 @@
+[project]
+name = "dev-tools"
+version = "0.1.3"
+
+[project.scripts]
+dev_tools = "dev_tools.run_main:main"
+
+[tool.setuptools.packages.find]
+include = ["dev_tools*"]
+exclude = ["node_modules*"]
