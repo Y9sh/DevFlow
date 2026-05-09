@@ -5,5 +5,5 @@ venv/
 __pycache__/
 .aider*
 node_modules/
-dev_tools.egg-info/
+*.egg-info/
 sources/
