@@ -15,7 +15,7 @@ venv/
 __pycache__/
 .aider*
 node_modules/
-    """
+"""
 
     def git_init(self) -> None:
         """
@@ -145,9 +145,13 @@ node_modules/
         Create git .gitignore
         """
         try:
-            with open(".gitignore", "w") as w:
-                w.write(self.base_git_ignore)
-            print("Created .gitignore file.")
+            if not os.path.exists(".gitignore"):
+                with open(".gitignore", "w") as w:
+                    w.write(self.base_git_ignore)
+                print("Created .gitignore file.")
+            else:
+                with open(".gitignore", "a") as a:
+                    a.write(self.base_git_ignore) # just for safe..if gitignore already exists..
         except Exception as e:
             print(f"Failed to create .gitignore: {type(e).__name__}: {e}")
 
@@ -164,6 +168,7 @@ node_modules/
                 continue
             if choice == "y":
                 new_entries = input("Enter files to ignore (comma-separated):").strip()
+                print("Let me check this: ",new_entries)
                 if not new_entries:
                     print("No entries provided.Input can't be empty")
                     continue
@@ -177,7 +182,9 @@ node_modules/
                     with open(".gitignore", "a") as a:
                         a.write(f"\n{entry}")
                     print("Updated .gitignore.")
-                    break
+                with open(".gitignore","r") as r:
+                    print("After Updated:\n",r.read())
+                break
             else:
                 print("Skip update .gitignore...")
                 self.git_check_stats()
@@ -207,8 +214,10 @@ node_modules/
                         continue
                     print(os.path.exists(entry))
                     with open(".gitignore", "a") as a:
-                        a.write(f"\n{entry}")
+                        a.write(f"{entry}\n")
                     print("Updated .gitignore.")
-                    break
+                with open(".gitignore","r") as r:
+                    print("After Updated:\n",r.read())
+                break
             break
         
