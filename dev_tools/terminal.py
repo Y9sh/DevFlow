@@ -1,6 +1,8 @@
 import subprocess
 from typing import List
 
+# later make the terminal can be access by ('\')
+
 def cmd(value: List[str]) -> None:
     """
     Access to terminal 

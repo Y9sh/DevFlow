@@ -50,4 +50,19 @@ class AgentAssistant:
                 print(f"Running Aider with model: {model_name}")
                 self.cmd(["aider", "--model", f"openai/{model_name}"])
                 break
-            
+
+class PythonEnvironment:
+    
+    def __init__(self):
+        self.cmd = cmd
+    
+    def create_new_env(self):
+        name_env = input("Enter python env name (Hit ENTER using default name(.venv)):").strip()
+        if name_env == "":
+            name_env = '.venv'
+        self.cmd(["python","-m","venv",name_env])
+        print(f"Python environment create {name_env}")
+
+
+        
+    

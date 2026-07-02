@@ -2,6 +2,7 @@ import os
 import subprocess
 from .terminal import cmd 
 
+
 class GIT:
     '''
     GIT automations wrapper
@@ -16,7 +17,7 @@ __pycache__/
 .aider*
 node_modules/
 """
-
+# need further re-construction for Lazy-Git...as git add . (only commit for all modified file.What about the new file added ? it should git add -a)
     def git_init(self) -> None:
         """
         Check if .git files is exist
@@ -125,9 +126,9 @@ node_modules/
                         print("Invalid input")
                         continue
                 elif choices == 1: 
-                    # correct again to make this only for files that related not all.
+                    # only related or modified files commit
                     self.git_check_stats()
-                    self.cmd(["git", "add", "-A"])
+                    self.cmd(["git", "add", "."])
                     commit_name = str(input("Enter commit name:"))
                     self.cmd(["git", "commit", "-m", commit_name])
                     self.git_check_stats()
